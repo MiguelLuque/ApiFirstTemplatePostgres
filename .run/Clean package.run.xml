@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Clean install" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="Clean package" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -8,11 +8,10 @@
           <option name="profiles">
             <set />
           </option>
-          <option name="goals"> 
+          <option name="goals">
             <list>
               <option value="clean" />
-              <option value="install" />
-              <option value="-DskipTests" />
+              <option value="package" />
             </list>
           </option>
           <option name="pomFileName" />
