@@ -10,5 +10,7 @@ public interface AuthService {
 
     AuthResponse registration(AuthRequest authRequest);
 
+    AuthResponse refreshToken(String refreshToken);
+
     Role findRoleByName(String name);
 }

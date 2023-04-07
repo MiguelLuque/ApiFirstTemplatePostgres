@@ -40,7 +40,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findByEmail(String email) {
 
-        return userRepository.findByEmail(email).map(userMapper::toDto).orElseThrow(() -> new NoSuchElementException("User not found"));
+        return userMapper.toDto(findDbUserByEmail(email));
+    }
+
+    @Override
+    public User findDbUserByEmail(String email) {
+
+        return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 
     @Override

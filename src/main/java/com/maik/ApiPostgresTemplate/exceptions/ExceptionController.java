@@ -38,6 +38,24 @@ public class ExceptionController {
 		return new ResponseEntity<>(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
+
+	/**
+	 * Api exception.
+	 *
+	 * Throws an exception when it receives an ApiException object.
+	 *
+	 * @param e the e
+	 * @return the response entity
+	 */
+	@ExceptionHandler(value = ApiException.class)
+	public ResponseEntity<ErrorDTO> apiException(ApiException e) {
+
+		ErrorDTO errorDTO = new ErrorDTO();
+		errorDTO.setCode(HttpStatus.valueOf(e.getCode()).toString());
+		errorDTO.setError(e.getMessage());
+		return new ResponseEntity<>(errorDTO, HttpStatus.valueOf(e.getCode()));
+
+	}
 	
 
 	/**

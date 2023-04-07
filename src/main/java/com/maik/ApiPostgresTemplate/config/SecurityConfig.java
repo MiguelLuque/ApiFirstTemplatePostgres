@@ -60,7 +60,7 @@ public class SecurityConfig {
 
 
         http.authorizeRequests()
-                .antMatchers("/auth/login","/auth/registration", "/users",
+                .antMatchers("/auth/login","/auth/registration","/auth/refreshtoken", "/users",
                         // -- Swagger UI v3 (OpenAPI)
                         "/v3/api-docs/**",
                         "/swagger-ui/**").permitAll()

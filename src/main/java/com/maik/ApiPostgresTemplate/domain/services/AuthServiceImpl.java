@@ -3,6 +3,7 @@ package com.maik.ApiPostgresTemplate.domain.services;
 import com.maik.ApiPostgresTemplate.config.JwtTokenUtil;
 import com.maik.ApiPostgresTemplate.domain.entities.Role;
 import com.maik.ApiPostgresTemplate.domain.entities.User;
+import com.maik.ApiPostgresTemplate.domain.mappers.UserMapper;
 import com.maik.ApiPostgresTemplate.domain.repositories.RoleRepository;
 import com.maik.ApiPostgresTemplate.domain.services.interfaces.AuthService;
 import com.maik.ApiPostgresTemplate.domain.services.interfaces.UserService;
@@ -28,8 +29,9 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final RoleRepository roleRepository;
-
     private final UserService userService;
+
+
 
     @Override
     public AuthResponse login(AuthRequest authRequest) {
@@ -41,9 +43,11 @@ public class AuthServiceImpl implements AuthService {
 
         User user = (User) authentication.getPrincipal();
         String accessToken = jwtTokenUtil.generateAccessToken(user);
+        String refreshToken = jwtTokenUtil.generateRefreshToken(user);
 
         response.setEmail(user.getEmail());
         response.setToken(accessToken);
+        response.setRefreshToken(refreshToken);
         return response;
     }
 
@@ -65,6 +69,17 @@ public class AuthServiceImpl implements AuthService {
         UserDTO userDTO = userService.save(user);
 
         return this.login(authRequest);
+    }
+
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
+        AuthResponse response = new AuthResponse();
+        String subject = jwtTokenUtil.getSubject(refreshToken);
+        User user = userService.findDbUserByEmail(subject.split(",")[1]);
+        String newAccessToken = jwtTokenUtil.generateAccessToken(user);
+
+        response.setToken(newAccessToken);
+        return response;
     }
 
     @Override
